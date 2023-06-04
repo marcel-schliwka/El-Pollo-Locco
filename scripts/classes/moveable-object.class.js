@@ -9,6 +9,23 @@ class MoveableObject {
   imageCache = {};
   speed = 0.15;
   otherDirection = false;
+  speedY = 0;
+  acceleration = 1;
+
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      } else {
+        this.speedY = 0;
+      }
+    }, 1000 / 25);
+  }
+
+  isAboveGround() {
+    return this.y < 145;
+  }
 
   loadImage(path) {
     this.img = new Image();
@@ -23,21 +40,42 @@ class MoveableObject {
     });
   }
   moveRight() {
-    console.log("Move Right");
+    this.x += this.speed;
+  }
+
+  moveLeft() {
+    this.x -= this.speed;
+  }
+
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  drawFrame(ctx) {
+    ctx.beginPath();
+    ctx.lineWidth = "5";
+    ctx.strokeStyle = "blue";
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
   }
 
   positionEntity(img, factorHeight, factorWidth) {
-    const percentHeight = (canvas.height + img.height) / 100;
-    const percentWidth = (canvas.width + img.width) / 100;
+    const percentHeight = (this.canvas.height + img.height) / 100;
+    const percentWidth = (this.canvas.width + img.width) / 100;
     console.log(`1 Prozent: ${percentHeight}`);
     this.height = percentHeight * factorHeight;
     this.width = percentWidth * factorWidth;
     console.log(`${this} ${this.height}`);
   }
 
-  moveLeft() {
-    setInterval(() => {
-      this.x -= this.speed;
-    }, 1000 / 60);
+  playAnimation(images) {
+    let i = this.currentImage % this.IMAGES_WALKING.length;
+    let path = images[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+  }
+
+  jump() {
+    this.speedY = 20;
   }
 }
