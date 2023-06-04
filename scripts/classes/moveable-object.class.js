@@ -1,25 +1,29 @@
 class MoveableObject {
-  x;
-  y;
+  x = 100;
+  y = 100;
+  currentImage = 0;
   img;
   canvas = document.querySelector("#canvas");
   height;
   width;
+  imageCache = {};
+  speed = 0.15;
+  otherDirection = false;
 
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
+
+  loadimages(arr) {
+    arr.forEach((path) => {
+      let img = new Image();
+      img.src = path;
+      this.imageCache[path] = img;
+    });
+  }
   moveRight() {
     console.log("Move Right");
-  }
-
-  calculatePosition(canvas, img) {
-    let factor = (this.height / canvas.height) * 5;
-    this.y = canvas.height / factor;
-    console.log("Character Y Position", this.y);
-    console.log("This.Height", factor);
-    this.x = 50;
   }
 
   positionEntity(img, factorHeight, factorWidth) {
@@ -29,7 +33,11 @@ class MoveableObject {
     this.height = percentHeight * factorHeight;
     this.width = percentWidth * factorWidth;
     console.log(`${this} ${this.height}`);
-    this.x = 500;
-    this.y = 50;
+  }
+
+  moveLeft() {
+    setInterval(() => {
+      this.x -= this.speed;
+    }, 1000 / 60);
   }
 }
