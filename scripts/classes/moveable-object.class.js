@@ -1,16 +1,10 @@
-class MoveableObject {
-  x = 100;
-  y = 100;
-  currentImage = 0;
-  img;
+class MoveableObject extends DrawableObject {
   canvas = document.querySelector("#canvas");
-  height;
-  width;
-  imageCache = {};
   speed = 0.15;
   otherDirection = false;
   speedY = 0;
   acceleration = 1;
+  lastHit = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -27,18 +21,7 @@ class MoveableObject {
     return this.y < 145;
   }
 
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
 
-  loadimages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
   moveRight() {
     this.x += this.speed;
   }
@@ -47,19 +30,35 @@ class MoveableObject {
     this.x -= this.speed;
   }
 
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
 
-  drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
+
+
+  isColliding(obj) {
+    return  this.x + this.width > obj.x &&
+            this.y + this.height > obj.y &&
+            this.x < obj.x &&
+            this.y < obj.y + obj.height;
+
+}
+
+hit() {
+  this.energy -= 5;
+  if(this.energy < 0) {
+    this.energy = 0;
+  } else {
+    this.lastHit = new Date().getTime();
   }
+}
+
+isHurt() {
+  let timePassed = new Date().getTime() - this.lastHit;
+  timePassed = timePassed / 1000;
+  return timePassed < 1.25;
+}
+
+isDead() {
+  return this.energy == 0;
+}
 
   positionEntity(img, factorHeight, factorWidth) {
     const percentHeight = (this.canvas.height + img.height) / 100;
@@ -71,7 +70,7 @@ class MoveableObject {
   }
 
   playAnimation(images) {
-    let i = this.currentImage % this.IMAGES_WALKING.length;
+    let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;

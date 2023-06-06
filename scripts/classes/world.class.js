@@ -8,6 +8,8 @@ class World {
   canvas;
   ctx;
   camera_x = 0;
+  statusBar = new StatusBar();
+  // throwableObjects = [new ThrowableObject()];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -16,10 +18,23 @@ class World {
     this.keyboard = keyboard;
     this.setWorld();
     this.draw();
+    this.checkCollisions();
   }
 
   setWorld() {
     this.character.world = this;
+  }
+
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          this.character.hit();
+          debugger;
+          this.statusBar.setPercentage(this.character.energy);
+        }
+      })
+    }, 200);
   }
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -27,9 +42,17 @@ class World {
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addToMap(this.character);
+
+    this.ctx.translate(-this.camera_x, 0);
+    // ---- Space for Fixed Objects ---- //
+    this.addToMap(this.statusBar);
+    // ---- End Space ---- //
+
+    this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);
 
     this.addObjectsToMap(this.level.clouds);
+    // this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     let self = this;
     requestAnimationFrame(() => {
