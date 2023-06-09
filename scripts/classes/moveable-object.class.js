@@ -7,7 +7,7 @@ class MoveableObject extends DrawableObject {
   lastHit = 0;
 
   applyGravity() {
-    setInterval(() => {
+    stoppableInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -18,9 +18,12 @@ class MoveableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    return this.y < 145;
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else {
+      return this.y < 145;
+    }
   }
-
 
   moveRight() {
     this.x += this.speed;
@@ -30,35 +33,33 @@ class MoveableObject extends DrawableObject {
     this.x -= this.speed;
   }
 
-
-
-
   isColliding(obj) {
-    return  this.x + this.width > obj.x &&
-            this.y + this.height > obj.y &&
-            this.x < obj.x &&
-            this.y < obj.y + obj.height;
-
-}
-
-hit() {
-  this.energy -= 5;
-  if(this.energy < 0) {
-    this.energy = 0;
-  } else {
-    this.lastHit = new Date().getTime();
+    return (
+      this.x + this.width > obj.x &&
+      this.y + this.height > obj.y &&
+      this.x < obj.x &&
+      this.y < obj.y + obj.height
+    );
   }
-}
 
-isHurt() {
-  let timePassed = new Date().getTime() - this.lastHit;
-  timePassed = timePassed / 1000;
-  return timePassed < 1.25;
-}
+  hit() {
+    this.energy -= 5;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
 
-isDead() {
-  return this.energy == 0;
-}
+  isHurt() {
+    let timePassed = new Date().getTime() - this.lastHit;
+    timePassed = timePassed / 1000;
+    return timePassed < 1.25;
+  }
+
+  isDead() {
+    return this.energy == 0;
+  }
 
   positionEntity(img, factorHeight, factorWidth) {
     const percentHeight = (this.canvas.height + img.height) / 100;

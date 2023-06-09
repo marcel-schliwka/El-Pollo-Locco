@@ -1,4 +1,5 @@
 let canvas;
+let intervalIds = [];
 let world;
 let keyboard = new Keyboard();
 
@@ -29,6 +30,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("keyup", (e) => {
+  // console.log(e.code);
   if (e.code == "Space") {
     keyboard.SPACE = false;
   }
@@ -45,6 +47,27 @@ document.addEventListener("keyup", (e) => {
     keyboard.DOWN = false;
   }
   if (e.code == "KeyD") {
-    keyboard.D = false
+    keyboard.D = false;
   }
 });
+
+function goFullscreen() {
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen();
+  } else if (canvas.mozRequestFullScreen) {
+    canvas.mozRequestFullScreen();
+  } else if (canvas.webkitRequestFullscreen) {
+    canvas.webkitRequestFullscreen();
+  } else if (canvas.msRequestFullscreen) {
+    canvas.msRequestFullscreen();
+  }
+}
+
+function stoppableInterval(fn, time) {
+  let interval = setInterval(fn, time);
+  intervalIds.push(interval);
+}
+
+function stopGame() {
+  intervalIds.forEach(clearInterval);
+}
