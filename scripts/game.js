@@ -51,18 +51,6 @@ document.addEventListener("keyup", (e) => {
   }
 });
 
-function goFullscreen() {
-  if (canvas.requestFullscreen) {
-    canvas.requestFullscreen();
-  } else if (canvas.mozRequestFullScreen) {
-    canvas.mozRequestFullScreen();
-  } else if (canvas.webkitRequestFullscreen) {
-    canvas.webkitRequestFullscreen();
-  } else if (canvas.msRequestFullscreen) {
-    canvas.msRequestFullscreen();
-  }
-}
-
 function stoppableInterval(fn, time) {
   let interval = setInterval(fn, time);
   intervalIds.push(interval);

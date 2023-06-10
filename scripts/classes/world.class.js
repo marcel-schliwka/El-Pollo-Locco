@@ -50,8 +50,10 @@ class World {
       );
       console.log("Character X", this.character.x, this.character.y);
       this.throwableObjects.push(bottle);
+      this.throwableObjects.forEach((bottle) => {});
     }
   }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
