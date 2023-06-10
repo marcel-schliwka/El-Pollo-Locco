@@ -7,15 +7,17 @@ class World {
   backgroundObjects = level1.backgroundObjects;
   canvas;
   ctx;
+  screen;
   camera_x = 0;
   statusBar = new StatusBar();
-  throwableObjects = [];
+  throwableObjects = [new ThrowableObject(-1000, -1000, "right")];
+
   // throwableObjects = [new ThrowableObject()];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
-    this.character = new Character();
     this.canvas = canvas;
+    this.character = new Character();
     this.keyboard = keyboard;
     this.setWorld();
     this.draw();
@@ -30,27 +32,38 @@ class World {
     stoppableInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
-    }, 200);
+    }, 100);
   }
   checkCollisions() {
+    let bottle = this.getCurrentBottle();
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
 
         this.statusBar.setPercentage(this.character.energy);
+      } else if (bottle.isColliding(enemy)) {
+        bottle.splashed = true;
+        bottle.splash();
+        console.log("Bottle collided");
       }
     });
   }
 
+  getCurrentBottle() {
+    return this.throwableObjects[this.throwableObjects.length - 1];
+  }
+
   checkThrowObjects() {
+    let thisSide = this.character.side;
     if (this.keyboard.D) {
       let bottle = new ThrowableObject(
-        this.character.x + 100,
-        this.character.y + 100
+        this.character.x,
+        this.character.y + 100,
+        thisSide
       );
       console.log("Character X", this.character.x, this.character.y);
       this.throwableObjects.push(bottle);
-      this.throwableObjects.forEach((bottle) => {});
+      this.throwableObjects.forEach((bottle, index) => {});
     }
   }
 
@@ -59,13 +72,14 @@ class World {
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.throwableObjects);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
     // ---- Space for Fixed Objects ---- //
     this.addToMap(this.statusBar);
     // ---- End Space ---- //
-    this.addObjectsToMap(this.throwableObjects);
+
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);
 

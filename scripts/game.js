@@ -1,11 +1,13 @@
 let canvas;
 let intervalIds = [];
 let world;
+let startGameBtn;
 let keyboard = new Keyboard();
 
 const init = () => {
   canvas = document.querySelector("#canvas");
-  world = new World(canvas, keyboard);
+  startGameBtn = document.querySelector("#start-game");
+  startGameBtn.addEventListener("click", startGame);
 };
 
 document.addEventListener("keydown", (e) => {

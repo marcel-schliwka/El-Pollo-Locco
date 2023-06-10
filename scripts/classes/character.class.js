@@ -6,6 +6,13 @@ class Character extends MoveableObject {
   height = 300;
   energy = 100;
   world;
+  idleTimer = 0;
+  offset = {
+    top: 110,
+    left: 20,
+    right: 20,
+    bottom: 0,
+  };
 
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -86,35 +93,48 @@ class Character extends MoveableObject {
 
     this.animate();
   }
-
+  resetIdleTimer() {
+    this.idleTimer = 0;
+  }
   animate() {
     stoppableInterval(() => {
       if (this.isAboveGround()) {
+        this.resetIdleTimer();
         this.playAnimation(this.IMAGES_JUMPING);
       } else if (this.isDead()) {
+        this.resetIdleTimer();
         this.playAnimation(this.IMAGES_DEAD);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.resetIdleTimer();
         this.playAnimation(this.IMAGES_WALKING);
       } else if (this.isHurt()) {
+        this.resetIdleTimer();
         this.playAnimation(this.IMAGES_HURT);
+      } else {
+        this.playAnimation(this.IMAGES_IDLE);
+        this.idleTimer += 1;
+        if (this.idleTimer > 200) {
+          this.playAnimation(this.IMAGES_LONG_IDLE);
+        }
       }
-    }, 50);
+    }, 100);
 
     stoppableInterval(() => {
       this.walking_sound.pause();
-
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      if (this.isDead()) {
+        return 0;
+      } else if (
+        this.world.keyboard.RIGHT &&
+        this.x < this.world.level.level_end_x
+      ) {
         this.moveRight();
         this.otherDirection = false;
         this.walking_sound.play();
-      }
-      if (this.world.keyboard.LEFT && this.x > 0) {
+      } else if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
         this.walking_sound.play();
-      }
-
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+      } else if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
       }
       this.world.camera_x = -this.x + 100;
