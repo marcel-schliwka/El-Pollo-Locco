@@ -9,10 +9,8 @@ class World {
   ctx;
   screen;
   camera_x = 0;
-  statusBar = new StatusBar();
+  statusBar = new StatusBar(this);
   throwableObjects = [new ThrowableObject(-1000, -1000, "right")];
-
-  // throwableObjects = [new ThrowableObject()];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -36,19 +34,41 @@ class World {
   }
   checkCollisions() {
     let bottle = this.getCurrentBottle();
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
+    this.level.enemies.forEach((enemy, index) => {
+      if (
+        this.character.isColliding(enemy) &&
+        !this.character.isAboveGround()
+      ) {
         this.character.hit();
+        if (this.character.isDead()) {
+          setTimeout(this.gameOver, 2000);
+        }
 
         this.statusBar.setPercentage(this.character.energy);
       } else if (bottle.isColliding(enemy)) {
         bottle.splashed = true;
         bottle.splash();
+        enemy.hit();
         console.log("Bottle collided");
+      } else if (
+        this.character.isColliding(enemy) &&
+        this.character.isAboveGround()
+      ) {
+        enemy.hit();
+        if (enemy.isDead()) {
+          this.deleteDeadEnemy(enemy, index);
+        }
       }
     });
   }
 
+  deleteDeadEnemy(enemy, index) {
+    this.level.enemies.splice(index, 1);
+  }
+
+  gameOver() {
+    stopGame();
+  }
   getCurrentBottle() {
     return this.throwableObjects[this.throwableObjects.length - 1];
   }
