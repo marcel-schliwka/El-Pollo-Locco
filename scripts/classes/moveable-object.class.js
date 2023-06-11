@@ -42,25 +42,48 @@ class MoveableObject extends DrawableObject {
     this.side = "left";
   }
 
-  // isColliding(obj) {
-  //   return (
-  //     this.x + this.width > obj.x &&
-  //     this.y + this.height > obj.y &&
-  //     this.x < obj.x &&
-  //     this.y < obj.y + obj.height
-  //   );
-  // }
-
   isColliding(obj) {
+    const myLeft = this.x;
+    const myRight = this.x + this.width;
+    const myTop = this.y;
+    const myBottom = this.y + this.height;
+
+    const otherLeft = obj.x + obj.offset.left;
+    const otherRight = obj.x + obj.width - obj.offset.right;
+    const otherTop = obj.y + obj.offset.top;
+    const otherBottom = obj.y + obj.height - obj.offset.bottom;
+
     return (
-      this.x + this.width >= obj.x &&
-      this.x <= obj.x + obj.width &&
-      this.y + this.offset.top + this.height >= obj.y &&
-      this.y + this.offset.bottom <= obj.y + obj.height
+      myRight >= otherLeft &&
+      myLeft <= otherRight &&
+      myBottom >= otherTop &&
+      myTop <= otherBottom
     );
   }
+
+  isJumpingOn(obj) {
+    if (obj instanceof Endboss) {
+      return false;
+    }
+    const isJumpingOn = this.y < obj.y && this.speedY < 0;
+    return isJumpingOn;
+  }
+
+  getEliminated(level) {
+    // Play death animation.
+    this.playAnimation(this.IMAGE_DEAD);
+
+    // After a delay (e.g. one second), remove from game.
+    setTimeout(() => {
+      let index = level.enemies.indexOf(this);
+      if (index > -1) {
+        level.enemies.splice(index, 1);
+      }
+    }, 1000);
+  }
+
   hit() {
-    this.energy -= 5;
+    this.energy -= 30;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
@@ -88,6 +111,9 @@ class MoveableObject extends DrawableObject {
   }
 
   playAnimation(images) {
+    if (!images) {
+      return 0;
+    }
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];

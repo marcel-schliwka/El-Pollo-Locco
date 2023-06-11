@@ -5,13 +5,15 @@ class Character extends MoveableObject {
   width = 150;
   height = 300;
   energy = 100;
+  bottles = 0;
+  coins = 0;
   world;
   idleTimer = 0;
   offset = {
     top: 110,
     left: 20,
     right: 20,
-    bottom: 0,
+    bottom: -40,
   };
 
   IMAGES_IDLE = [
@@ -139,5 +141,9 @@ class Character extends MoveableObject {
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
+  }
+
+  hasEnoughBottles() {
+    return this.bottles > 0;
   }
 }

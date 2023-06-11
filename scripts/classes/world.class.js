@@ -11,6 +11,7 @@ class World {
   camera_x = 0;
   statusBar = new StatusBar(this);
   throwableObjects = [new ThrowableObject(-1000, -1000, "right")];
+  collectableObjects = level1.collectables;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -34,36 +35,75 @@ class World {
   }
   checkCollisions() {
     let bottle = this.getCurrentBottle();
-    this.level.enemies.forEach((enemy, index) => {
-      if (
-        this.character.isColliding(enemy) &&
-        !this.character.isAboveGround()
-      ) {
-        this.character.hit();
-        if (this.character.isDead()) {
-          setTimeout(this.gameOver, 2000);
-        }
-
-        this.statusBar.setPercentage(this.character.energy);
-      } else if (bottle.isColliding(enemy)) {
-        bottle.splashed = true;
-        bottle.splash();
-        enemy.hit();
-        console.log("Bottle collided");
-      } else if (
-        this.character.isColliding(enemy) &&
-        this.character.isAboveGround()
-      ) {
-        enemy.hit();
-        if (enemy.isDead()) {
-          this.deleteDeadEnemy(enemy, index);
-        }
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.handleCharacterCollision(enemy);
+      } else if (bottle.isColliding(enemy) && !bottle.hasInflictedDamage) {
+        this.handleBottleCollision(bottle, enemy);
+      }
+    });
+    this.level.collectables.forEach((collectable) => {
+      if (this.character.isColliding(collectable)) {
+        this.collectedItem(collectable);
       }
     });
   }
 
-  deleteDeadEnemy(enemy, index) {
-    this.level.enemies.splice(index, 1);
+  collectedItem(collectable) {
+    if (collectable.type === "bottle") {
+      this.character.bottles++;
+    }
+    if (collectable.type === "coin") {
+      this.character.coins++;
+    }
+    const collectableIndex = this.level.collectables.indexOf(collectable);
+    if (collectableIndex > -1) {
+      this.level.collectables.splice(collectableIndex, 1);
+    }
+  }
+
+  handleCharacterCollision(enemy) {
+    if (this.character.isJumpingOn(enemy)) {
+      this.handleJumpOnEnemy(enemy);
+    } else if (!this.character.isInvincible) {
+      this.handleEnemyHit();
+    }
+  }
+
+  handleJumpOnEnemy(enemy) {
+    enemy.hit();
+    if (enemy.isDead()) {
+      enemy.getEliminated(this.level);
+    }
+    this.initiateInvincibility();
+  }
+
+  handleEnemyHit() {
+    this.character.hit();
+    if (this.character.isDead()) {
+      setTimeout(this.gameOver, 2000);
+    } else {
+      this.initiateInvincibility();
+    }
+  }
+
+  initiateInvincibility() {
+    if (!this.character.isInvincible) {
+      this.character.isInvincible = true;
+      setTimeout(() => {
+        this.character.isInvincible = false;
+      }, 1000); // Unverwundbarkeitsphase
+    }
+  }
+
+  handleBottleCollision(bottle, enemy) {
+    bottle.splashed = true;
+    bottle.hasInflictedDamage = true;
+    bottle.splash();
+    enemy.hit();
+    if (enemy.isDead()) {
+      enemy.getEliminated(this.level);
+    }
   }
 
   gameOver() {
@@ -75,7 +115,7 @@ class World {
 
   checkThrowObjects() {
     let thisSide = this.character.side;
-    if (this.keyboard.D) {
+    if (this.keyboard.D && this.character.hasEnoughBottles()) {
       let bottle = new ThrowableObject(
         this.character.x,
         this.character.y + 100,
@@ -83,7 +123,7 @@ class World {
       );
       console.log("Character X", this.character.x, this.character.y);
       this.throwableObjects.push(bottle);
-      this.throwableObjects.forEach((bottle, index) => {});
+      this.character.bottles--;
     }
   }
 
@@ -93,17 +133,19 @@ class World {
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.collectableObjects);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
     // ---- Space for Fixed Objects ---- //
     this.addToMap(this.statusBar);
+
     // ---- End Space ---- //
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);
 
-    this.addObjectsToMap(this.level.clouds);
     // this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     let self = this;
@@ -126,7 +168,7 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    // mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
