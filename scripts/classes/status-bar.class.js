@@ -5,7 +5,6 @@ class StatusBar extends DrawableObject {
   IMAGE_BOSS_HEALTH = "img/7_statusbars/3_icons/icon_health_endboss.png";
   IMAGE_COIN = "img/7_statusbars/3_icons/icon_coin.png";
 
-  firstBossEncounter = false;
   constructor(world) {
     super();
     this.world = world;
@@ -60,17 +59,17 @@ class StatusBar extends DrawableObject {
     let endbossEnergy;
     if (endboss) {
       endbossEnergy = endboss.energy;
+      ctx.drawImage(
+        this.imageCache[this.IMAGE_BOSS_HEALTH],
+        500,
+        0,
+        this.width,
+        this.height
+      );
+      this.writeText(ctx, endbossEnergy, 600);
     } else {
       endbossEnergy = 0;
     }
-    ctx.drawImage(
-      this.imageCache[this.IMAGE_BOSS_HEALTH],
-      500,
-      0,
-      this.width,
-      this.height
-    );
-    this.writeText(ctx, endbossEnergy, 600);
   }
 
   getEndboss() {
@@ -81,15 +80,19 @@ class StatusBar extends DrawableObject {
     this.drawCharacterHealth(ctx);
     this.drawSalsaBottle(ctx);
     this.drawCoin(ctx);
-    if (this.world.character.x > 1200 || this.firstBossEncounter) {
-      this.drawBossHealth(ctx);
-      this.firstBossEncounter = true;
-    }
+    this.showBossHealth(ctx);
   }
 
   writeText(ctx, text, x) {
     ctx.font = "40px Mexico";
     ctx.fillStyle = "white";
     ctx.fillText(text, x, 70);
+  }
+
+  showBossHealth(ctx) {
+    let endboss = this.getEndboss();
+    if (endboss && this.world.character.x > endboss.x - 610) {
+      this.drawBossHealth(ctx);
+    }
   }
 }

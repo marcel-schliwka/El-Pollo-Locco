@@ -37,6 +37,7 @@ class World {
     let bottle = this.getCurrentBottle();
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
+        this.checkIfEnemyIsEndboss(enemy);
         this.handleCharacterCollision(enemy);
       } else if (bottle.isColliding(enemy) && !bottle.hasInflictedDamage) {
         this.handleBottleCollision(bottle, enemy);
@@ -67,6 +68,15 @@ class World {
       this.handleJumpOnEnemy(enemy);
     } else if (!this.character.isInvincible) {
       this.handleEnemyHit();
+    }
+  }
+
+  checkIfEnemyIsEndboss(enemy) {
+    if (enemy instanceof Endboss) {
+      enemy.playerContact = true;
+      setTimeout(() => (enemy.playerContact = false), 2000);
+    } else {
+      enemy.playerContact = false;
     }
   }
 
@@ -103,6 +113,9 @@ class World {
     enemy.hit();
     if (enemy.isDead()) {
       enemy.getEliminated(this.level);
+      if (enemy instanceof Endboss) {
+        setTimeout(() => this.gameOver(), 2000);
+      }
     }
   }
 

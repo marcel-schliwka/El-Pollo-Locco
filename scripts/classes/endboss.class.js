@@ -2,7 +2,9 @@ class Endboss extends MoveableObject {
   width = 300;
   height = 300;
   y = 150;
+  x = 2000;
   energy = 100;
+  playerContact = false;
   onceHurt = false;
   IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
@@ -53,7 +55,6 @@ class Endboss extends MoveableObject {
     super.loadimages(this.IMAGE_DEAD);
     super.loadimages(this.IMAGES_ATTACK);
     super.loadimages(this.IMAGES_HURT);
-    this.x = 2000;
     this.animate();
   }
 
@@ -62,9 +63,11 @@ class Endboss extends MoveableObject {
       if (this.isHurt() && !this.isDead()) {
         this.playAnimation(this.IMAGES_HURT);
         this.onceHurt = true;
+      } else if (this.playerContact) {
+        this.playAnimation(this.IMAGES_ATTACK);
       } else if (this.onceHurt && !this.isDead()) {
         this.playAnimation(this.IMAGES_WALKING);
-        this.x -= 20;
+        this.x -= 35;
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
       } else {
