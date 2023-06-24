@@ -80,7 +80,6 @@ class Character extends MoveableObject {
   ];
 
   speed = 10;
-  walking_sound = new Audio("audio/walking_sand.mp3");
   constructor() {
     super();
     this.applyGravity();
@@ -111,6 +110,7 @@ class Character extends MoveableObject {
         this.playAnimation(this.IMAGES_WALKING);
       } else if (this.isHurt()) {
         this.resetIdleTimer();
+        this.soundManager.characterHurt();
         this.playAnimation(this.IMAGES_HURT);
       } else {
         this.playAnimation(this.IMAGES_IDLE);
@@ -122,22 +122,23 @@ class Character extends MoveableObject {
     }, 100);
 
     stoppableInterval(() => {
-      this.walking_sound.pause();
+      this.soundManager.characterWalking(false);
       if (this.isDead()) {
         return 0;
+      } else if (this.checkIfCharacterJumps()) {
+        this.soundManager.playJump();
+        this.jump();
       } else if (
         this.world.keyboard.RIGHT &&
         this.x < this.world.level.level_end_x
       ) {
         this.moveRight();
         this.otherDirection = false;
-        this.walking_sound.play();
+        this.soundManager.characterWalking(true);
       } else if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
-        this.walking_sound.play();
-      } else if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
+        this.soundManager.characterWalking(true);
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
@@ -145,5 +146,17 @@ class Character extends MoveableObject {
 
   hasEnoughBottles() {
     return this.bottles > 0;
+  }
+  checkIfCharacterJumps() {
+    return (
+      (this.world.keyboard.SPACE && !this.isAboveGround()) ||
+      (this.world.keyboard.UP && !this.isAboveGround()) ||
+      (this.world.keyboard.UP &&
+        this.world.keyboard.RIGHT &&
+        !this.isAboveGround()) ||
+      (this.world.keyboard.LEFT &&
+        this.world.keyboard.UP &&
+        !this.isAboveGround())
+    );
   }
 }

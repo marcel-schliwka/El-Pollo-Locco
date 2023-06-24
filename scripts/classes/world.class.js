@@ -1,21 +1,27 @@
 class World {
-  level = level1;
+  level;
   character;
   keyboard;
-  enemies = level1.enemies;
-  clouds = level1.clouds;
-  backgroundObjects = level1.backgroundObjects;
+  enemies;
+  clouds;
+  soundManager = new SoundManager();
+  backgroundObjects;
   canvas;
   ctx;
   screen;
   camera_x = 0;
   statusBar = new StatusBar(this);
-  throwableObjects = [new ThrowableObject(-1000, -1000, "right")];
-  collectableObjects = level1.collectables;
+  throwableObjects = [new ThrowableObject(-2000, -2000, "right")];
+  collectableObjects;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard, level) {
+    this.level = level;
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.enemies = level.enemies;
+    this.clouds - level.clouds;
+    this.backgroundObjects = level.clouds;
+    this.collectableObjects = level.collectables;
     this.character = new Character();
     this.keyboard = keyboard;
     this.setWorld();
@@ -45,6 +51,7 @@ class World {
     });
     this.level.collectables.forEach((collectable) => {
       if (this.character.isColliding(collectable)) {
+        this.soundManager.collectItem();
         this.collectedItem(collectable);
       }
     });
@@ -82,6 +89,7 @@ class World {
 
   handleJumpOnEnemy(enemy) {
     enemy.hit();
+    this.character.jump();
     if (enemy.isDead()) {
       enemy.getEliminated(this.level);
     }

@@ -5,6 +5,7 @@ class Endboss extends MoveableObject {
   x = 2000;
   energy = 100;
   playerContact = false;
+  hurt_sound = new Audio("audio/goat.mp3");
   onceHurt = false;
   IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
@@ -62,6 +63,7 @@ class Endboss extends MoveableObject {
     stoppableInterval(() => {
       if (this.isHurt() && !this.isDead()) {
         this.playAnimation(this.IMAGES_HURT);
+        this.soundManager.playEndbossHurt();
         this.onceHurt = true;
       } else if (this.playerContact) {
         this.playAnimation(this.IMAGES_ATTACK);
@@ -70,6 +72,7 @@ class Endboss extends MoveableObject {
         this.x -= 35;
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        this.soundManager.endbossDies();
       } else {
         this.playAnimation(this.IMAGES_ALERT);
       }
