@@ -9,39 +9,127 @@
 }
 body {
   margin: 0;
+  font-family: Mexico, sans-serif;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 100svh;
   background: url(../img/desert.svg) no-repeat center center fixed;
   background-size: cover;
 }
 
 h1 {
-  font-family: Mexico, sans-serif;
   font-size: 4rem;
 }
 #canvas {
   background-color: black;
   display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .game-container {
   position: relative;
 }
 
-.overlay {
+.flex-center {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  border-bottom: #b1b1b1 1px solid;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  border-radius: 20px;
 }
 
+.icon-bar-top {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.icon-bar-top img {
+  margin-top: 10px;
+  padding: 10px 5px;
+  animation: iconScaleDown 125ms ease-in-out forwards;
+  width: 32px;
+  height: 32px;
+}
+
+.icon-bar-top img:hover {
+  animation: iconScaleUp 125ms ease-in-out forwards;
+}
+.keySettings img {
+  width: 64px;
+  height: 64px;
+}
+
+.key {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.hud {
+  display: none;
+}
+.keySettings {
+  height: 80%;
+  width: 40%;
+  border: 1px solid black;
+  background-color: #ffc402;
+  margin-left: 30px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  z-index: 2;
+}
+
+.startscreen img,
+.game-over-img,
+#lost img,
+#settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.startbutton-container,
+.restartbutton-container {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
 #overlay-image {
   width: 100%;
   height: 100%;
@@ -49,7 +137,7 @@ h1 {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 button {
   background-color: #ff9d00;
@@ -66,24 +154,8 @@ button {
   cursor: pointer;
 }
 
-.element-container {
-  position: absolute;
-  top: 50px;
-}
-
-.icons-bar {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-end;
-  cursor: pointer;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-}
-
-.icons-bar img {
-  object-fit: cover;
-  width: 50px;
+button:hover {
+  background-color: #fdad2d;
 }
 
 #pollo-logo {
@@ -95,14 +167,55 @@ button {
   top: 30%;
 }
 
+.turn-device {
+  display: none;
+}
+
 @media only screen and (max-width: 720px) {
   canvas {
     width: 100%;
+  }
+
+  .turn-device {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    height: 100svh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    color: #fff;
   }
 }
 
 @media only screen and (max-width: 480px) {
   canvas {
     height: 100vh;
+  }
+}
+
+@keyframes iconScaleUp {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}
+@keyframes iconScaleDown {
+  0% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }

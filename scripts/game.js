@@ -9,7 +9,6 @@ const init = () => {
   canvas = document.querySelector("#canvas");
   startGameBtn = document.querySelector("#start-game");
   overlayImage = document.querySelector("#overlay-image");
-  startGameBtn.addEventListener("click", startGame);
 };
 
 document.addEventListener("keydown", (e) => {
@@ -62,9 +61,5 @@ function stoppableInterval(fn, time) {
 
 function stopGame() {
   intervalIds.forEach(clearInterval);
-  overlayImage.src = "img/9_intro_outro_screens/game_over/oh no you lost!.png";
-  startGameBtn.innerText = "Restart Game";
-  document
-    .querySelectorAll(".hide")
-    .forEach((element) => element.classList.remove("d-none"));
+  document.querySelector(".gameOver").classList.remove("d-none");
 }

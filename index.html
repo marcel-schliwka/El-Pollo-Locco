@@ -57,25 +57,97 @@
     <div class="game-container">
       <canvas id="canvas" width="720" height="480"></canvas>
       <!-- <canvas id="canvas" width="1440" height="920"></canvas> -->
-      <div class="overlay">
-        <img
-          src="img/9_intro_outro_screens/start/startscreen_1.png"
-          alt="Startscreen"
-          id="overlay-image"
-          class="hide"
-        />
-        <div class="element-container hide">
-          <button id="start-game">Start</button>
-        </div>
 
-        <div class="icons-bar">
+      <div class="game-overlay">
+        <div class="startscreen hide">
           <img
-            id="fullscreen-icon"
-            src="./img/icons/fullscreen.svg"
-            alt="Fullscreen Icon"
+            src="img/9_intro_outro_screens/start/startscreen_1.png"
+            alt="Startscreen"
+            id="overlay-image"
+            class="hide"
           />
+          <div class="startbutton-container">
+            <button onclick="startGame();" class="btns">Start</button>
+          </div>
+        </div>
+        <div class="gameOver d-none">
+          <img
+            src="./img/9_intro_outro_screens/game_over/game over!.png"
+            alt="Gameover Screen"
+            class="game-over-img"
+          />
+          <div class="restartbutton-container">
+            <button class="btns">Restart</button>
+          </div>
+        </div>
+        <div class="lost d-none">
+          <img
+            src="./img/9_intro_outro_screens/game_over/oh no you lost!.png"
+            alt="You Lost Screen"
+            class="game-over-img"
+          />
+          <button class="btns">Restart</button>
+        </div>
+        <div id="settingsMenu" class="settings d-none">
+          <div class="keySettings">
+            <div class="flex-center">
+              <h2>Keyboard Controls</h2>
+            </div>
+            <div class="flex-center">
+              <img
+                class="key"
+                src="./img/icons/buttons.png"
+                alt="Arrow Keys Image"
+              /><span>Move around</span>
+            </div>
+            <div class="flex-center">
+              <img
+                class="key"
+                src="./img/icons/d-key.png"
+                alt="D Key on Keyboard"
+              /><span>Throw Bottle</span>
+            </div>
+            <div class="flex-center">
+              <img
+                class="key"
+                src="./img/icons/d-key.png"
+                alt="Space Key on Keyboard"
+              /><span>Jump</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud">
+          <div class="left btns">
+            <button id="leftHudBtn">Left</button>
+            <button id="rightHudBtn">Right</button>
+          </div>
+          <div class="right btns">
+            <button id="btnJumpUp">Jump</button>
+            <button id="btnThrowBottle">Throw</button>
+          </div>
         </div>
       </div>
+      <div class="icon-bar-top">
+        <img
+          src="./img/icons/setting.png"
+          alt="Open Settings"
+          id="openSettingsBtn"
+          onclick="openSettings(this);"
+        />
+        <img
+          src="./img/icons/sound.png"
+          alt="Mute Audio"
+          onclick="muteAudio(this)"
+        />
+        <img
+          src="./img/icons/fullscreen.svg"
+          alt="Toggle Fullscreen"
+          onclick="fullscreen();"
+        />
+      </div>
+    </div>
+    <div class="turn-device">
+      <h2>please turn your device</h2>
     </div>
 
     <script src="./scripts/events.js"></script>
