@@ -1,6 +1,5 @@
 class DrawableObject {
   img;
-  soundManager = new SoundManager();
   imageCache = {};
   currentImage = 0;
   height;

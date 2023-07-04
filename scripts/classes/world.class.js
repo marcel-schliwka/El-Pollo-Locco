@@ -4,7 +4,6 @@ class World {
   keyboard;
   enemies;
   clouds;
-  soundManager = new SoundManager();
   backgroundObjects;
   canvas;
   ctx;
@@ -14,8 +13,9 @@ class World {
   throwableObjects = [new ThrowableObject(-2000, -2000, "right")];
   collectableObjects;
 
-  constructor(canvas, keyboard, level) {
+  constructor(canvas, keyboard, level, soundManager) {
     this.level = level;
+    this.soundManager = soundManager;
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.enemies = level.enemies;
@@ -31,6 +31,7 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.enemies.forEach((enemy) => (enemy.world = this));
   }
 
   run() {

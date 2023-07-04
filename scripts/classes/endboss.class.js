@@ -63,7 +63,7 @@ class Endboss extends MoveableObject {
     stoppableInterval(() => {
       if (this.isHurt() && !this.isDead()) {
         this.playAnimation(this.IMAGES_HURT);
-        this.soundManager.playEndbossHurt();
+        this.world.soundManager.playEndbossHurt();
         this.onceHurt = true;
       } else if (this.playerContact) {
         this.playAnimation(this.IMAGES_ATTACK);
@@ -72,7 +72,7 @@ class Endboss extends MoveableObject {
         this.x -= 35;
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        this.soundManager.endbossDies();
+        this.world.soundManager.endbossDies();
       } else {
         this.playAnimation(this.IMAGES_ALERT);
       }

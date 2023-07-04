@@ -37,7 +37,7 @@ class Chicken extends MoveableObject {
     stoppableInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
       if (this.isDead()) {
-        this.soundManager.chickenDead();
+        this.world.soundManager.chickenDead();
         this.playAnimation(this.IMAGE_DEAD);
         setTimeout(() => delete this, 1000);
       }

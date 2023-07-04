@@ -1,6 +1,7 @@
 const fullscreenIcon = document.getElementById("fullscreen-icon");
 const gameContainer = document.querySelector(".game-container");
 const menu = document.getElementById("settingsMenu");
+let soundManager = new SoundManager();
 
 function goFullscreen() {
   if (canvas.requestFullscreen) {
@@ -16,7 +17,7 @@ function goFullscreen() {
 
 function startGame() {
   const level1 = createLevel();
-  world = new World(canvas, keyboard, level1);
+  world = new World(canvas, keyboard, level1, soundManager);
   document
     .querySelectorAll(".hide")
     .forEach((el) => el.classList.add("d-none"));
@@ -37,10 +38,12 @@ function closeSettings(button) {
 function muteAudio(button) {
   button.setAttribute("onclick", "resumeAudio(this);");
   button.src = "./img/icons/mute.png";
+  soundManager.muted = true;
 }
 function resumeAudio(button) {
   button.setAttribute("onclick", "muteAudio(this);");
   button.src = "./img/icons/sound.png";
+  soundManager.muted = false;
 }
 
 function fullscreen(button) {
