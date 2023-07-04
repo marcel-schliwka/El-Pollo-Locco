@@ -7,8 +7,10 @@
   font-family: Boogaloo;
   src: url(../fonts/Boogaloo-Regular.ttf);
 }
+
 body {
   margin: 0;
+  height: 100vh;
   font-family: Mexico, sans-serif;
   display: flex;
   justify-content: center;
@@ -25,8 +27,6 @@ h1 {
   background-color: black;
   display: block;
   position: relative;
-  width: 100%;
-  height: 100%;
 }
 
 .game-container {
@@ -36,7 +36,7 @@ h1 {
 .flex-center {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   font-size: 20px;
@@ -84,6 +84,9 @@ h1 {
   height: 64px;
   opacity: 0.5;
 }
+.icon-bar-bottom img:hover {
+  opacity: 0.6;
+}
 
 .icon-bar-top img:hover {
   animation: iconScaleUp 125ms ease-in-out forwards;
@@ -94,8 +97,8 @@ h1 {
 }
 
 .key {
-  width: 32px !important;
   height: 32px !important;
+  object-fit: contain;
 }
 
 .hud {
@@ -115,6 +118,10 @@ h1 {
   gap: 10px;
   padding: 20px;
   z-index: 2;
+}
+
+.keySettings h2 {
+  text-align: center;
 }
 
 .startscreen img,
@@ -184,7 +191,7 @@ button:hover {
 }
 
 @media only screen and (max-width: 720px) {
-  canvas {
+  .game-container {
     width: 100svw;
   }
 
@@ -211,6 +218,13 @@ button:hover {
 @media only screen and (max-width: 480px) {
   .game-container {
     height: 100svh;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .game-container {
+    height: 100svh;
+    width: 100svw;
   }
 }
 
