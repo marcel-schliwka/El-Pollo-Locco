@@ -14,7 +14,6 @@ body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 100svh;
   background: url(../img/desert.svg) no-repeat center center fixed;
   background-size: cover;
 }
@@ -71,6 +70,19 @@ h1 {
   animation: iconScaleDown 125ms ease-in-out forwards;
   width: 32px;
   height: 32px;
+}
+
+.icon-bar-bottom {
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.icon-bar-bottom img {
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
 }
 
 .icon-bar-top img:hover {
@@ -173,7 +185,7 @@ button:hover {
 
 @media only screen and (max-width: 720px) {
   canvas {
-    width: 100%;
+    width: 100svw;
   }
 
   .turn-device {
@@ -183,11 +195,12 @@ button:hover {
     right: 0;
     left: 0;
     display: flex;
+    text-align: center;
     justify-content: center;
     align-items: center;
     letter-spacing: 2px;
-    font-size: 2rem;
-    height: 100svh;
+    font-size: 1.5rem;
+    height: 100vh;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 1;
@@ -196,8 +209,8 @@ button:hover {
 }
 
 @media only screen and (max-width: 480px) {
-  canvas {
-    height: 100vh;
+  .game-container {
+    height: 100svh;
   }
 }
 

@@ -14,7 +14,6 @@ function goFullscreen() {
   }
 }
 
-fullscreenIcon.addEventListener("click", goFullscreen);
 function startGame() {
   const level1 = createLevel();
   world = new World(canvas, keyboard, level1);
@@ -59,24 +58,3 @@ function fullscreen(button) {
     document.exitFullscreen();
   }
 }
-
-window.addEventListener("orientationchange", function () {
-  if (window.matchMedia("(orientation: landscape)").matches) {
-    // Get the game element
-    var gameElement = document.getElementById("myGame");
-
-    // Check if fullscreen is available
-    if (gameElement.requestFullscreen) {
-      gameContainer.requestFullscreen();
-    } else if (gameContainer.mozRequestFullScreen) {
-      /* Firefox */
-      gameContainer.mozRequestFullScreen();
-    } else if (gameContainer.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      gameContainer.webkitRequestFullscreen();
-    } else if (gameContainer.msRequestFullscreen) {
-      /* IE/Edge */
-      gameContainer.msRequestFullscreen();
-    }
-  }
-});

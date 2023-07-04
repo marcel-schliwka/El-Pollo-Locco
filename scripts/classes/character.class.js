@@ -141,7 +141,7 @@ class Character extends MoveableObject {
         this.soundManager.characterWalking(true);
       }
       this.world.camera_x = -this.x + 100;
-    }, 1000 / 60);
+    }, 1000 / 30);
   }
 
   hasEnoughBottles() {

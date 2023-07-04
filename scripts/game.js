@@ -3,13 +3,78 @@ let intervalIds = [];
 let world;
 let startGameBtn;
 let overlayImage;
+let touchJump;
+let touchThrow;
+let lastCalculated = 0;
+const throttleTime = 100;
 let keyboard = new Keyboard();
 
 const init = () => {
   canvas = document.querySelector("#canvas");
   startGameBtn = document.querySelector("#start-game");
   overlayImage = document.querySelector("#overlay-image");
+  touchJump = document.getElementById("touchJump");
+  touchThrow = document.getElementById("touchThrow");
+
+  startTouchEventListener(canvas);
 };
+
+function startTouchEventListener(canvas) {
+  canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    calculateDirection(e.touches[0].clientX, e.touches[0].clientY);
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastCalculated > throttleTime) {
+      calculateDirection(e.touches[0].clientX, e.touches[0].clientY);
+      lastCalculated = now;
+    }
+  });
+
+  canvas.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+    keyboard.RIGHT = false;
+  });
+
+  touchJump.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+  });
+
+  touchJump.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = false;
+  });
+
+  touchThrow.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.D = true;
+  });
+
+  touchThrow.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.D = false;
+  });
+}
+
+function calculateDirection(touchX, touchY) {
+  const canvasMiddle = canvas.width / 2;
+  const canvasHalf = canvas.height / 2;
+
+  if (touchX < canvasMiddle && touchY > canvasHalf) {
+    keyboard.LEFT = true;
+    keyboard.RIGHT = false;
+  }
+
+  if (touchX > canvasMiddle && touchY > canvasHalf) {
+    keyboard.RIGHT = true;
+    keyboard.LEFT = false;
+  }
+}
 
 document.addEventListener("keydown", (e) => {
   if (e.code == "Space") {
