@@ -7,7 +7,8 @@ class Bottle extends CollectableObjects {
     super();
 
     this.x = x;
-    this.side = side;
+    this.randomBool = Math.random() < 0.5;
+    this.side = this.randomBool ? "left" : "right";
     this.loadImagesBySide();
   }
 

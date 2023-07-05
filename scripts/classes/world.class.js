@@ -8,9 +8,10 @@ class World {
   canvas;
   ctx;
   screen;
+  throwableObjects;
   camera_x = 0;
   statusBar = new StatusBar(this);
-  throwableObjects = [new ThrowableObject(-2000, -2000, "right")];
+
   collectableObjects;
 
   constructor(canvas, keyboard, level, soundManager) {
@@ -18,6 +19,7 @@ class World {
     this.soundManager = soundManager;
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.throwableObjects = [new ThrowableObject(-2000, -2000, "right", this)];
     this.enemies = level.enemies;
     this.clouds - level.clouds;
     this.backgroundObjects = level.clouds;
@@ -46,7 +48,11 @@ class World {
       if (this.character.isColliding(enemy)) {
         this.checkIfEnemyIsEndboss(enemy);
         this.handleCharacterCollision(enemy);
-      } else if (bottle.isColliding(enemy) && !bottle.hasInflictedDamage) {
+      } else if (
+        bottle.isColliding(enemy) &&
+        !bottle.hasInflictedDamage &&
+        !bottle.deleted
+      ) {
         this.handleBottleCollision(bottle, enemy);
       }
     });
@@ -89,10 +95,13 @@ class World {
   }
 
   handleJumpOnEnemy(enemy) {
-    enemy.hit();
-    this.character.jump();
+    if (!enemy.isDead()) {
+      this.character.jump();
+      enemy.jumpedOn();
+    }
     if (enemy.isDead()) {
       enemy.getEliminated(this.level);
+    } else {
     }
     this.initiateInvincibility();
   }
@@ -132,7 +141,13 @@ class World {
     stopGame();
   }
   getCurrentBottle() {
-    return this.throwableObjects[this.throwableObjects.length - 1];
+    if (this.throwableObjects && this.throwableObjects.length > 0) {
+      return this.throwableObjects[this.throwableObjects.length - 1];
+    } else {
+      let dummyBottle = new ThrowableObject(-1000, -1000, "right", this);
+      dummyBottle.deleted = true;
+      return dummyBottle;
+    }
   }
 
   checkThrowObjects() {
@@ -141,9 +156,9 @@ class World {
       let bottle = new ThrowableObject(
         this.character.x,
         this.character.y + 100,
-        thisSide
+        thisSide,
+        this
       );
-      console.log("Character X", this.character.x, this.character.y);
       this.throwableObjects.push(bottle);
       this.character.bottles--;
     }
@@ -154,7 +169,7 @@ class World {
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
-    this.addObjectsToMap(this.throwableObjects);
+
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.collectableObjects);
     this.addToMap(this.character);
@@ -168,7 +183,7 @@ class World {
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);
 
-    // this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     let self = this;
     requestAnimationFrame(() => {

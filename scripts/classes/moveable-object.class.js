@@ -2,7 +2,8 @@ class MoveableObject extends DrawableObject {
   canvas = document.querySelector("#canvas");
   speed = 0.15;
   otherDirection = false;
-  speedY = 0;
+  speedY = 1;
+  jumpEnergy = 2;
   acceleration = 1;
   lastHit = 0;
   side = "right";
@@ -14,14 +15,15 @@ class MoveableObject extends DrawableObject {
   };
 
   applyGravity() {
-    stoppableInterval(() => {
+    let gravityInterval = stoppableInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
         this.speedY = 0;
       }
-    }, 1000 / 25);
+    }, 1000 / 60);
+    return gravityInterval;
   }
 
   isAboveGround() {
@@ -91,6 +93,13 @@ class MoveableObject extends DrawableObject {
     }
   }
 
+  jumpedOn() {
+    this.jumpEnergy -= 1;
+    if (this.jumpEnergy < 0) {
+      this.jumpEnergy = 0;
+    }
+  }
+
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
     timePassed = timePassed / 1000;
@@ -98,7 +107,7 @@ class MoveableObject extends DrawableObject {
   }
 
   isDead() {
-    return this.energy == 0;
+    return this.energy == 0 || this.jumpEnergy == 0;
   }
 
   positionEntity(img, factorHeight, factorWidth) {

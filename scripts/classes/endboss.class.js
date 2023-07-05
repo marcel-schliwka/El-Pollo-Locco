@@ -2,7 +2,7 @@ class Endboss extends MoveableObject {
   width = 300;
   height = 300;
   y = 150;
-  x = 2000;
+  x = 4500;
   energy = 100;
   playerContact = false;
   hurt_sound = new Audio("audio/goat.mp3");

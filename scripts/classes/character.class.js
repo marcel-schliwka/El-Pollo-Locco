@@ -83,7 +83,6 @@ class Character extends MoveableObject {
   constructor() {
     super();
     this.applyGravity();
-    console.log(this.canvas);
     super.loadImage("img/2_character_pepe/2_walk/W-21.png");
     super.loadimages(this.IMAGES_IDLE);
     super.loadimages(this.IMAGES_LONG_IDLE);
@@ -105,6 +104,7 @@ class Character extends MoveableObject {
       } else if (this.isDead()) {
         this.resetIdleTimer();
         this.playAnimation(this.IMAGES_DEAD);
+        this.world.soundManager.characterDies();
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.resetIdleTimer();
         this.playAnimation(this.IMAGES_WALKING);

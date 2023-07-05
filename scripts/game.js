@@ -122,9 +122,15 @@ document.addEventListener("keyup", (e) => {
 function stoppableInterval(fn, time) {
   let interval = setInterval(fn, time);
   intervalIds.push(interval);
+  return interval;
 }
 
 function stopGame() {
   intervalIds.forEach(clearInterval);
   document.querySelector(".gameOver").classList.remove("d-none");
+}
+
+function restartGame() {
+  document.querySelector(".gameOver").classList.add("d-none");
+  startGame();
 }

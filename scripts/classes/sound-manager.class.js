@@ -7,6 +7,8 @@ class SoundManager {
   walking_sound = new Audio("audio/walking_sand.mp3");
   chicken_dead_sound = new Audio("audio/smash_enemy.mp3");
   collect_item_sound = new Audio("audio/collect_item.mp3");
+  character_death_sound = new Audio("audio/character_death.mp3");
+  onceDead = false;
 
   playJump() {
     if (!this.muted) {
@@ -25,6 +27,15 @@ class SoundManager {
   characterStopWalking() {
     if (!this.muted) {
       this.walking_sound.pause();
+    }
+  }
+
+  characterDies() {
+    if (!this.muted && !this.onceDead) {
+      this.character_death_sound.loop = false;
+      this.character_death_sound.play();
+      this.onceDead = true;
+      setTimeout(() => (this.onceDead = false), 2000);
     }
   }
 
