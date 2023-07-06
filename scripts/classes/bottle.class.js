@@ -3,6 +3,13 @@ class Bottle extends CollectableObjects {
   type = "bottle";
   IMAGE_BOTTLE_RIGHT = "img/6_salsa_bottle/2_salsa_bottle_on_ground.webp";
   IMAGE_BOTTLE_LEFT = "img/6_salsa_bottle/1_salsa_bottle_on_ground.webp";
+  offset = {
+    top: 5,
+    left: 50,
+    right: 50,
+    bottom: 20,
+  };
+
   constructor() {
     super();
 

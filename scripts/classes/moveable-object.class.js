@@ -45,15 +45,16 @@ class MoveableObject extends DrawableObject {
   }
 
   isColliding(obj) {
-    const myLeft = this.x;
-    const myRight = this.x + this.width;
-    const myTop = this.y;
-    const myBottom = this.y + this.height;
+    const myLeft = this.x + this.offset.left;
+    const myRight = this.x + this.width - this.offset.right;
+    const myTop = this.y + this.offset.top;
+    const myBottom = this.y + this.height - this.offset.bottom;
 
-    const otherLeft = obj.x + obj.offset.left;
-    const otherRight = obj.x + obj.width - obj.offset.right;
-    const otherTop = obj.y + obj.offset.top;
-    const otherBottom = obj.y + obj.height - obj.offset.bottom;
+    const otherLeft = obj.x + (obj.offset ? obj.offset.left : 0);
+    const otherRight = obj.x + obj.width - (obj.offset ? obj.offset.right : 0);
+    const otherTop = obj.y + (obj.offset ? obj.offset.top : 0);
+    const otherBottom =
+      obj.y + obj.height - (obj.offset ? obj.offset.bottom : 0);
 
     return (
       myRight >= otherLeft &&
@@ -130,6 +131,6 @@ class MoveableObject extends DrawableObject {
   }
 
   jump() {
-    this.speedY = 20;
+    this.speedY = 15;
   }
 }

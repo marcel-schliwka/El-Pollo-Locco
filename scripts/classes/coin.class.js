@@ -6,7 +6,7 @@ class Coin extends CollectableObjects {
     super();
     this.minDistance = 500;
     this.x = Math.random() * (5000 - this.minDistance);
-    this.y = Math.random() * 100 + 100;
+    this.y = Math.random() * 100 + 150;
     this.randomBool = Math.random() < 0.5;
     this.size = this.randomBool ? "small" : "large";
     this.loadCoinImage();

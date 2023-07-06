@@ -9,12 +9,6 @@ class Character extends MoveableObject {
   coins = 0;
   world;
   idleTimer = 0;
-  offset = {
-    top: 110,
-    left: 20,
-    right: 20,
-    bottom: -40,
-  };
 
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.webp",
@@ -90,6 +84,12 @@ class Character extends MoveableObject {
     super.loadimages(this.IMAGES_JUMPING);
     super.loadimages(this.IMAGES_DEAD);
     super.loadimages(this.IMAGES_HURT);
+    this.offset = {
+      top: 200,
+      left: 60,
+      right: 60,
+      bottom: 20,
+    };
 
     this.animate();
   }
