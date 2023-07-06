@@ -158,6 +158,10 @@ h1 {
 .d-none {
   display: none !important;
 }
+
+.icon-bar-bottom {
+  display: none;
+}
 button {
   background-color: #ff9d00;
   display: flex;
@@ -225,6 +229,10 @@ button:hover {
   canvas {
     height: 100svh;
     width: 100svw;
+  }
+  .icon-bar-bottom {
+    display: flex;
+    gap: 20px;
   }
 }
 

@@ -5,6 +5,8 @@ let startGameBtn;
 let overlayImage;
 let touchJump;
 let touchThrow;
+let touchLeft;
+let touchRight;
 let lastCalculated = 0;
 const throttleTime = 100;
 let keyboard = new Keyboard();
@@ -15,28 +17,29 @@ const init = () => {
   overlayImage = document.querySelector("#overlay-image");
   touchJump = document.getElementById("touchJump");
   touchThrow = document.getElementById("touchThrow");
+  touchLeft = document.getElementById("touchLeft");
+  touchRight = document.getElementById("touchRight");
 
-  startTouchEventListener(canvas);
+  startTouchEventListener();
 };
 
-function startTouchEventListener(canvas) {
-  canvas.addEventListener("touchstart", (e) => {
+function startTouchEventListener() {
+  touchLeft.addEventListener("touchstart", (e) => {
     e.preventDefault();
-    calculateDirection(e.touches[0].clientX, e.touches[0].clientY);
+    keyboard.LEFT = true;
   });
 
-  canvas.addEventListener("touchmove", (e) => {
-    e.preventDefault();
-    const now = Date.now();
-    if (now - lastCalculated > throttleTime) {
-      calculateDirection(e.touches[0].clientX, e.touches[0].clientY);
-      lastCalculated = now;
-    }
-  });
-
-  canvas.addEventListener("touchend", (e) => {
+  touchLeft.addEventListener("touchend", (e) => {
     e.preventDefault();
     keyboard.LEFT = false;
+  });
+  touchRight.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+  });
+
+  touchRight.addEventListener("touchend", (e) => {
+    e.preventDefault();
     keyboard.RIGHT = false;
   });
 

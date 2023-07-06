@@ -61,12 +61,12 @@ class StatusBar extends DrawableObject {
       endbossEnergy = endboss.energy;
       ctx.drawImage(
         this.imageCache[this.IMAGE_BOSS_HEALTH],
-        500,
+        430,
         0,
         this.width,
         this.height
       );
-      this.writeText(ctx, endbossEnergy, 600);
+      this.writeText(ctx, endbossEnergy, 530);
     } else {
       endbossEnergy = 0;
     }

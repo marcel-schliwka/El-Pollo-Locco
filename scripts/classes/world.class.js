@@ -9,6 +9,7 @@ class World {
   ctx;
   screen;
   throwableObjects;
+  throwCooldown;
   camera_x = 0;
   statusBar = new StatusBar(this);
 
@@ -40,7 +41,7 @@ class World {
     stoppableInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
-    }, 100);
+    }, 50);
   }
   checkCollisions() {
     let bottle = this.getCurrentBottle();
@@ -96,6 +97,7 @@ class World {
 
   handleJumpOnEnemy(enemy) {
     if (!enemy.isDead()) {
+      this.soundManager.chickenHurt();
       this.character.jump();
       enemy.jumpedOn();
     }
@@ -152,7 +154,12 @@ class World {
 
   checkThrowObjects() {
     let thisSide = this.character.side;
-    if (this.keyboard.D && this.character.hasEnoughBottles()) {
+    if (
+      this.keyboard.D &&
+      this.character.hasEnoughBottles() &&
+      !this.throwCooldown
+    ) {
+      this.throwCooldown = true;
       let bottle = new ThrowableObject(
         this.character.x,
         this.character.y + 100,
@@ -161,6 +168,7 @@ class World {
       );
       this.throwableObjects.push(bottle);
       this.character.bottles--;
+      setTimeout(() => (this.throwCooldown = false), 2000);
     }
   }
 

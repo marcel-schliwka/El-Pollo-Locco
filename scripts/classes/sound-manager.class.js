@@ -4,6 +4,7 @@ class SoundManager {
   character_hurt = new Audio("audio/pepe_hurt.mp3");
   endboss_hurt = new Audio("audio/endboss.mp3");
   endboss_dies = new Audio("audio/goat.mp3");
+  chicken_sound = new Audio("audio/chicken.mp3");
   walking_sound = new Audio("audio/walking_sand.mp3");
   chicken_dead_sound = new Audio("audio/smash_enemy.mp3");
   collect_item_sound = new Audio("audio/collect_item.mp3");
@@ -51,6 +52,11 @@ class SoundManager {
     }
   }
 
+  chickenHurt() {
+    if (!this.muted) {
+      this.chicken_sound.play;
+    }
+  }
   chickenDead() {
     if (!this.muted) {
       this.chicken_dead_sound.play();

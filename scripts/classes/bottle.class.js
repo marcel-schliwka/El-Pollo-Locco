@@ -3,10 +3,10 @@ class Bottle extends CollectableObjects {
   type = "bottle";
   IMAGE_BOTTLE_RIGHT = "img/6_salsa_bottle/2_salsa_bottle_on_ground.png";
   IMAGE_BOTTLE_LEFT = "img/6_salsa_bottle/1_salsa_bottle_on_ground.png";
-  constructor(x, side) {
+  constructor() {
     super();
 
-    this.x = x;
+    this.x = Math.round(Math.random() * 5000 + 300);
     this.randomBool = Math.random() < 0.5;
     this.side = this.randomBool ? "left" : "right";
     this.loadImagesBySide();
