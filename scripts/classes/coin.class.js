@@ -1,7 +1,7 @@
 class Coin extends CollectableObjects {
   type = "coin";
-  IMAGE_COIN_SMALL = "img/8_coin/coin_1.png";
-  IMAGE_COIN_LARGE = "img/8_coin/coin_2.png";
+  IMAGE_COIN_SMALL = "img/8_coin/coin_1.webp";
+  IMAGE_COIN_LARGE = "img/8_coin/coin_2.webp";
   constructor() {
     super();
     this.minDistance = 500;

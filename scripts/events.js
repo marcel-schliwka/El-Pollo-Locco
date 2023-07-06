@@ -25,24 +25,24 @@ function startGame() {
 
 function openSettings(button) {
   menu.classList.remove("d-none");
-  button.src = "./img/icons/close.png";
+  button.src = "./img/icons/close.webp";
   button.setAttribute("onclick", "closeSettings(this);");
 }
 
 function closeSettings(button) {
   menu.classList.add("d-none");
-  button.src = "./img/icons/setting.png";
+  button.src = "./img/icons/setting.webp";
   button.setAttribute("onclick", "openSettings(this);");
 }
 
 function muteAudio(button) {
   button.setAttribute("onclick", "resumeAudio(this);");
-  button.src = "./img/icons/mute.png";
+  button.src = "./img/icons/mute.webp";
   soundManager.muted = true;
 }
 function resumeAudio(button) {
   button.setAttribute("onclick", "muteAudio(this);");
-  button.src = "./img/icons/sound.png";
+  button.src = "./img/icons/sound.webp";
   soundManager.muted = false;
 }
 

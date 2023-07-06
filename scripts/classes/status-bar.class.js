@@ -1,9 +1,9 @@
 class StatusBar extends DrawableObject {
   world;
-  IMAGE_HEALTH_CHARACTER = "img/7_statusbars/3_icons/icon_health.png";
-  IMAGE_SALSA_BOTTLE = "img/7_statusbars/3_icons/icon_salsa_bottle.png";
-  IMAGE_BOSS_HEALTH = "img/7_statusbars/3_icons/icon_health_endboss.png";
-  IMAGE_COIN = "img/7_statusbars/3_icons/icon_coin.png";
+  IMAGE_HEALTH_CHARACTER = "img/7_statusbars/3_icons/icon_health.webp";
+  IMAGE_SALSA_BOTTLE = "img/7_statusbars/3_icons/icon_salsa_bottle.webp";
+  IMAGE_BOSS_HEALTH = "img/7_statusbars/3_icons/icon_health_endboss.webp";
+  IMAGE_COIN = "img/7_statusbars/3_icons/icon_coin.webp";
 
   constructor(world) {
     super();

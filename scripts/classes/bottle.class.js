@@ -1,8 +1,8 @@
 class Bottle extends CollectableObjects {
   side = "right";
   type = "bottle";
-  IMAGE_BOTTLE_RIGHT = "img/6_salsa_bottle/2_salsa_bottle_on_ground.png";
-  IMAGE_BOTTLE_LEFT = "img/6_salsa_bottle/1_salsa_bottle_on_ground.png";
+  IMAGE_BOTTLE_RIGHT = "img/6_salsa_bottle/2_salsa_bottle_on_ground.webp";
+  IMAGE_BOTTLE_LEFT = "img/6_salsa_bottle/1_salsa_bottle_on_ground.webp";
   constructor() {
     super();
 

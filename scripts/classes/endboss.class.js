@@ -8,49 +8,49 @@ class Endboss extends MoveableObject {
   hurt_sound = new Audio("audio/goat.mp3");
   onceHurt = false;
   IMAGES_ALERT = [
-    "img/4_enemie_boss_chicken/2_alert/G5.png",
-    "img/4_enemie_boss_chicken/2_alert/G6.png",
-    "img/4_enemie_boss_chicken/2_alert/G7.png",
-    "img/4_enemie_boss_chicken/2_alert/G8.png",
-    "img/4_enemie_boss_chicken/2_alert/G9.png",
-    "img/4_enemie_boss_chicken/2_alert/G10.png",
-    "img/4_enemie_boss_chicken/2_alert/G11.png",
-    "img/4_enemie_boss_chicken/2_alert/G12.png",
+    "img/4_enemie_boss_chicken/2_alert/G5.webp",
+    "img/4_enemie_boss_chicken/2_alert/G6.webp",
+    "img/4_enemie_boss_chicken/2_alert/G7.webp",
+    "img/4_enemie_boss_chicken/2_alert/G8.webp",
+    "img/4_enemie_boss_chicken/2_alert/G9.webp",
+    "img/4_enemie_boss_chicken/2_alert/G10.webp",
+    "img/4_enemie_boss_chicken/2_alert/G11.webp",
+    "img/4_enemie_boss_chicken/2_alert/G12.webp",
   ];
 
   IMAGE_DEAD = [
-    "img/4_enemie_boss_chicken/5_dead/G24.png",
-    "img/4_enemie_boss_chicken/5_dead/G25.png",
-    "img/4_enemie_boss_chicken/5_dead/G26.png",
+    "img/4_enemie_boss_chicken/5_dead/G24.webp",
+    "img/4_enemie_boss_chicken/5_dead/G25.webp",
+    "img/4_enemie_boss_chicken/5_dead/G26.webp",
   ];
 
   IMAGES_HURT = [
-    "img/4_enemie_boss_chicken/4_hurt/G21.png",
-    "img/4_enemie_boss_chicken/4_hurt/G22.png",
-    "img/4_enemie_boss_chicken/4_hurt/G23.png",
+    "img/4_enemie_boss_chicken/4_hurt/G21.webp",
+    "img/4_enemie_boss_chicken/4_hurt/G22.webp",
+    "img/4_enemie_boss_chicken/4_hurt/G23.webp",
   ];
 
   IMAGES_ATTACK = [
-    "img/4_enemie_boss_chicken/3_attack/G13.png",
-    "img/4_enemie_boss_chicken/3_attack/G14.png",
-    "img/4_enemie_boss_chicken/3_attack/G15.png",
-    "img/4_enemie_boss_chicken/3_attack/G16.png",
-    "img/4_enemie_boss_chicken/3_attack/G17.png",
-    "img/4_enemie_boss_chicken/3_attack/G18.png",
-    "img/4_enemie_boss_chicken/3_attack/G19.png",
-    "img/4_enemie_boss_chicken/3_attack/G20.png",
+    "img/4_enemie_boss_chicken/3_attack/G13.webp",
+    "img/4_enemie_boss_chicken/3_attack/G14.webp",
+    "img/4_enemie_boss_chicken/3_attack/G15.webp",
+    "img/4_enemie_boss_chicken/3_attack/G16.webp",
+    "img/4_enemie_boss_chicken/3_attack/G17.webp",
+    "img/4_enemie_boss_chicken/3_attack/G18.webp",
+    "img/4_enemie_boss_chicken/3_attack/G19.webp",
+    "img/4_enemie_boss_chicken/3_attack/G20.webp",
   ];
 
   IMAGES_WALKING = [
-    "img/4_enemie_boss_chicken/1_walk/G1.png",
-    "img/4_enemie_boss_chicken/1_walk/G2.png",
-    "img/4_enemie_boss_chicken/1_walk/G3.png",
-    "img/4_enemie_boss_chicken/1_walk/G4.png",
+    "img/4_enemie_boss_chicken/1_walk/G1.webp",
+    "img/4_enemie_boss_chicken/1_walk/G2.webp",
+    "img/4_enemie_boss_chicken/1_walk/G3.webp",
+    "img/4_enemie_boss_chicken/1_walk/G4.webp",
   ];
 
   constructor() {
     super();
-    super.loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
+    super.loadImage("img/4_enemie_boss_chicken/2_alert/G5.webp");
     super.loadimages(this.IMAGES_ALERT);
     super.loadimages(this.IMAGES_WALKING);
     super.loadimages(this.IMAGE_DEAD);
