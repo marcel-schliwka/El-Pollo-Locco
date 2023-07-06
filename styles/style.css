@@ -76,7 +76,7 @@ h1 {
   cursor: pointer;
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  right: 50px;
 }
 
 .icon-bar-bottom img {
@@ -232,7 +232,11 @@ button:hover {
   }
   .icon-bar-bottom {
     display: flex;
-    gap: 20px;
+    width: 90%;
+    justify-content: space-between;
+  }
+  .icon-bar-bottom-left {
+    display: flex;
   }
 }
 
