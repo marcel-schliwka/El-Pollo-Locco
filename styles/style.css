@@ -120,6 +120,15 @@ h1 {
   z-index: 2;
 }
 
+.fullscreen {
+  width: 100%;
+  height: 100%;
+}
+.fullscreen canvas {
+  width: 100%;
+  height: 100%;
+}
+
 .keySettings h2 {
   text-align: center;
 }
@@ -195,12 +204,9 @@ button:hover {
 }
 
 @media only screen and (max-width: 720px) {
-  canvas {
-    width: 100svw;
-  }
-
   .turn-device {
     position: absolute;
+    flex-direction: column;
     top: 0;
     bottom: 0;
     right: 0;
@@ -212,23 +218,26 @@ button:hover {
     letter-spacing: 2px;
     font-size: 1.5rem;
     height: 100vh;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    width: 100vw;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0);
     z-index: 1;
     color: #fff;
   }
-}
-
-@media only screen and (max-width: 480px) {
+  .game-container,
   canvas {
-    height: 100svh;
+    width: 100vw;
   }
 }
 
-@media only screen and (max-height: 500px) {
-  canvas {
-    height: 100svh;
-    width: 100svw;
+@media only screen and (max-height: 480px) {
+  .game-container {
+    width: 100%;
+    height: 100%;
+  }
+  .game-container canvas {
+    width: 100%;
+    height: 100%;
   }
   .icon-bar-bottom {
     display: flex;
@@ -237,6 +246,9 @@ button:hover {
   }
   .icon-bar-bottom-left {
     display: flex;
+  }
+  .turn-device {
+    display: none;
   }
 }
 

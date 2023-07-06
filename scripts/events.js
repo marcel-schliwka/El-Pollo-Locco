@@ -15,6 +15,12 @@ function goFullscreen() {
   }
 }
 
+document.addEventListener("fullscreenchange", function () {
+  if (!document.fullscreenElement) {
+    canvas.classList.remove("fullscreen");
+  }
+});
+
 function startGame() {
   const level1 = createLevel();
   world = new World(canvas, keyboard, level1, soundManager);
@@ -57,6 +63,7 @@ function fullscreen(button) {
     } else if (gameContainer.msRequestFullscreen) {
       gameContainer.msRequestFullscreen();
     }
+    canvas.classList.add("fullscreen");
   } else {
     document.exitFullscreen();
   }
