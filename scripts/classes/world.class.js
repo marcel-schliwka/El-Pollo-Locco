@@ -111,7 +111,7 @@ class World {
   handleEnemyHit() {
     this.character.hit();
     if (this.character.isDead()) {
-      setTimeout(this.gameOver, 2000);
+      setTimeout(this.youLost(), 2000);
     } else {
       this.initiateInvincibility();
     }
@@ -141,6 +141,10 @@ class World {
 
   gameOver() {
     stopGame();
+  }
+
+  youLost() {
+    lostGame();
   }
   getCurrentBottle() {
     if (this.throwableObjects && this.throwableObjects.length > 0) {

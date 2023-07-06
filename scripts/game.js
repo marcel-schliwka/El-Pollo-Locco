@@ -133,7 +133,13 @@ function stopGame() {
   document.querySelector(".gameOver").classList.remove("d-none");
 }
 
+function lostGame() {
+  intervalIds.forEach(clearInterval);
+  document.querySelector(".lost").classList.remove("d-none");
+}
+
 function restartGame() {
   document.querySelector(".gameOver").classList.add("d-none");
+  document.querySelector(".lost").classList.add("d-none");
   startGame();
 }

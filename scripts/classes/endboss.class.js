@@ -57,6 +57,12 @@ class Endboss extends MoveableObject {
     super.loadimages(this.IMAGES_ATTACK);
     super.loadimages(this.IMAGES_HURT);
     this.animate();
+    this.offset = {
+      top: 0,
+      left: 100,
+      right: 60,
+      bottom: 20,
+    };
   }
 
   animate() {
