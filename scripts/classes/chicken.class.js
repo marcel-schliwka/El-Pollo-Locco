@@ -3,6 +3,7 @@ class Chicken extends MoveableObject {
   x = 100;
   width = 100;
   height = 100;
+  jumpEnergy = 2;
   energy = 1;
 
   IMAGES_WALKING = [
@@ -20,11 +21,19 @@ class Chicken extends MoveableObject {
     this.x = Math.round(Math.random() * 5000 + 300);
     this.speed = 0.25 + Math.random() * 1.65;
     this.animate();
+    this.offset = {
+      top: 0,
+      left: -15,
+      right: -10,
+      bottom: 0,
+    };
   }
 
   animate() {
     stoppableInterval(() => {
-      this.moveLeft();
+      if (!this.isDead()) {
+        this.moveLeft();
+      }
     }, 1000 / 30);
     stoppableInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);

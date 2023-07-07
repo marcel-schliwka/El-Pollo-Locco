@@ -3,10 +3,12 @@ class Endboss extends MoveableObject {
   height = 300;
   y = 150;
   x = 4500;
+  speed = 40;
   energy = 100;
   playerContact = false;
   hurt_sound = new Audio("audio/goat.mp3");
   onceHurt = false;
+  animationCompleted = {};
   IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.webp",
     "img/4_enemie_boss_chicken/2_alert/G6.webp",
@@ -18,7 +20,7 @@ class Endboss extends MoveableObject {
     "img/4_enemie_boss_chicken/2_alert/G12.webp",
   ];
 
-  IMAGE_DEAD = [
+  IMAGES_DEAD = [
     "img/4_enemie_boss_chicken/5_dead/G24.webp",
     "img/4_enemie_boss_chicken/5_dead/G25.webp",
     "img/4_enemie_boss_chicken/5_dead/G26.webp",
@@ -53,13 +55,13 @@ class Endboss extends MoveableObject {
     super.loadImage("img/4_enemie_boss_chicken/2_alert/G5.webp");
     super.loadimages(this.IMAGES_ALERT);
     super.loadimages(this.IMAGES_WALKING);
-    super.loadimages(this.IMAGE_DEAD);
+    super.loadimages(this.IMAGES_DEAD);
     super.loadimages(this.IMAGES_ATTACK);
     super.loadimages(this.IMAGES_HURT);
     this.animate();
     this.offset = {
       top: 0,
-      left: 100,
+      left: 50,
       right: 60,
       bottom: 20,
     };
@@ -74,14 +76,26 @@ class Endboss extends MoveableObject {
       } else if (this.playerContact) {
         this.playAnimation(this.IMAGES_ATTACK);
       } else if (this.onceHurt && !this.isDead()) {
+        this.world.soundManager.stopTheme();
+        this.world.soundManager.playEndbossTheme();
         this.playAnimation(this.IMAGES_WALKING);
-        this.x -= 35;
+        if (this.isCharacterLefOrRight()) {
+          this.otherDirection = true;
+          this.moveRight();
+        } else {
+          this.otherDirection = false;
+          this.moveLeft();
+        }
       } else if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.playAnimation(this.IMAGES_DEAD, "IMAGES_DEAD", () => {});
         this.world.soundManager.endbossDies();
       } else {
-        this.playAnimation(this.IMAGES_ALERT);
+        this.playAnimation(this.IMAGES_ALERT, "IMAGES_ALERT");
       }
     }, 200);
+  }
+
+  isCharacterLefOrRight() {
+    return this.x < this.world.character.x;
   }
 }

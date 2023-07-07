@@ -1,4 +1,5 @@
 class SmallChicken extends Chicken {
+  jumpEnergy = 1;
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_small/1_walk/1_w.webp",
     "img/3_enemies_chicken/chicken_small/1_walk/2_w.webp",

@@ -1,7 +1,7 @@
 const fullscreenIcon = document.getElementById("fullscreen-icon");
 const gameContainer = document.querySelector(".game-container");
 const menu = document.getElementById("settingsMenu");
-let soundManager = new SoundManager();
+let soundManager;
 
 function goFullscreen() {
   if (canvas.requestFullscreen) {
@@ -23,6 +23,7 @@ document.addEventListener("fullscreenchange", function () {
 
 function startGame() {
   const level1 = createLevel();
+  const soundManager = new SoundManager();
   world = new World(canvas, keyboard, level1, soundManager);
   document
     .querySelectorAll(".hide")

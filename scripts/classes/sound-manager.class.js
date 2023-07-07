@@ -1,5 +1,7 @@
 class SoundManager {
   muted = false;
+  theme_sound = new Audio("audio/theme.mp3");
+  endboss_theme_sound = new Audio("audio/endboss_theme.mp3");
   character_jump = new Audio("audio/pepe_jump.mp3");
   character_hurt = new Audio("audio/pepe_hurt.mp3");
   endboss_hurt = new Audio("audio/endboss.mp3");
@@ -10,6 +12,32 @@ class SoundManager {
   collect_item_sound = new Audio("audio/collect_item.mp3");
   character_death_sound = new Audio("audio/character_death.mp3");
   onceDead = false;
+
+  playTheme() {
+    if (!this.muted) {
+      this.theme_sound.play();
+    }
+  }
+
+  stopTheme() {
+    this.theme_sound.pause();
+  }
+
+  playEndbossTheme() {
+    if (!this.muted) {
+      this.endboss_theme_sound.play();
+    }
+  }
+
+  stopEndbossTheme() {
+    this.endboss_theme_sound.pause();
+  }
+
+  playSadTheme() {
+    if (!this.muted) {
+      this.sad_theme_sound.play();
+    }
+  }
 
   playJump() {
     if (!this.muted) {

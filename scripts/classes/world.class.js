@@ -27,12 +27,14 @@ class World {
     this.collectableObjects = level.collectables;
     this.character = new Character();
     this.keyboard = keyboard;
+
     this.setWorld();
     this.draw();
     this.run();
   }
 
   setWorld() {
+    this.soundManager.playTheme();
     this.character.world = this;
     this.enemies.forEach((enemy) => (enemy.world = this));
   }
@@ -82,7 +84,7 @@ class World {
     if (this.character.isJumpingOn(enemy)) {
       this.handleJumpOnEnemy(enemy);
     } else if (!this.character.isInvincible) {
-      this.handleEnemyHit();
+      this.handleEnemyHit(enemy);
     }
   }
 
@@ -98,8 +100,10 @@ class World {
   handleJumpOnEnemy(enemy) {
     if (!enemy.isDead()) {
       this.soundManager.chickenHurt();
-      this.character.jump();
       enemy.jumpedOn();
+      if (enemy.jumpEnergy > 0) {
+        this.character.jump();
+      }
     }
     if (enemy.isDead()) {
       enemy.getEliminated(this.level);
@@ -108,8 +112,11 @@ class World {
     this.initiateInvincibility();
   }
 
-  handleEnemyHit() {
-    this.character.hit();
+  handleEnemyHit(enemy) {
+    if (!enemy.isDead()) {
+      this.character.hit();
+    }
+
     if (this.character.isDead()) {
       setTimeout(this.youLost(), 2000);
     } else {
@@ -140,10 +147,13 @@ class World {
   }
 
   gameOver() {
+    this.soundManager.stopTheme();
+    this.soundManager.stopEndbossTheme();
     stopGame();
   }
 
   youLost() {
+    this.soundManager.stopTheme();
     lostGame();
   }
   getCurrentBottle() {
@@ -177,26 +187,44 @@ class World {
   }
 
   draw() {
+    // Klarer Kontext
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
+    // Finde den Endboss im Level
+    let endboss = this.enemies.find((enemy) => enemy instanceof Endboss);
 
+    // Überprüfen Sie, ob der Charakter die rechte Seite des Endbosses erreicht hat und verschieben Sie die Kamera entsprechend
+    if (endboss) {
+      if (this.character.x > endboss.x) {
+        this.camera_x = -this.character.x + this.canvas.width / 2;
+      }
+    }
+
+    // Anwenden der Kamerabewegung
+    this.ctx.translate(this.camera_x, 0);
+
+    // Zeichnen von bewegenden Objekten
+    this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.collectableObjects);
     this.addToMap(this.character);
 
+    // Kamerabewegung rückgängig machen
     this.ctx.translate(-this.camera_x, 0);
-    // ---- Space for Fixed Objects ---- //
+
+    // Zeichnen von festen Objekten
     this.addToMap(this.statusBar);
 
-    // ---- End Space ---- //
-
+    // Kamerabewegung erneut anwenden
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.enemies);
 
+    // Weitere bewegende Objekte zeichnen
+    this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
+
+    // Kamerabewegung erneut rückgängig machen
     this.ctx.translate(-this.camera_x, 0);
+
     let self = this;
     requestAnimationFrame(() => {
       self.draw();
