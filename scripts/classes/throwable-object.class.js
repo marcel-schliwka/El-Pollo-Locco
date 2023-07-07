@@ -1,4 +1,18 @@
+/**
+ * Represents a ThrowableObject in the game. This class extends the MoveableObject class.
+ * @extends MoveableObject
+ */
 class ThrowableObject extends MoveableObject {
+  /**
+   * @property {string} side - The side from which the object is thrown.
+   * @property {boolean} splashed - Indicates whether the object has splashed or not. Initial value is false.
+   * @property {boolean} touchedGround - Indicates whether the object has touched the ground or not. Initial value is false.
+   * @property {boolean} hasInflictedDamage - Indicates whether the object has inflicted damage or not. Initial value is false.
+   * @property {Object} world - Represents the game world.
+   * @property {boolean} deleted - Indicates whether the object has been deleted from the game. Initial value is undefined.
+   * @property {Array} IMAGES_THROW - Array of image paths representing the throwing animation of the object.
+   * @property {Array} IMAGES_SPLASH - Array of image paths representing the splashing animation of the object.
+   */
   side;
   splashed = false;
   touchedGround = false;
@@ -34,6 +48,11 @@ class ThrowableObject extends MoveableObject {
     this.throw();
   }
 
+  /**
+   * throw() - Initiates the object's throwing motion. If the object touches the ground, it splashes.
+   * Depending on the side, the object moves right or left.
+   * Stops moving when it splashes and gets deleted from the game.
+   */
   throw() {
     this.speedY = 18;
     let gravityInterval = this.applyGravity();
@@ -61,12 +80,19 @@ class ThrowableObject extends MoveableObject {
     }, 25);
   }
 
+  /**
+   * splash() - Starts the object's splash animation.
+   */
   splash() {
     stoppableInterval(() => {
       this.playAnimation(this.IMAGES_SPLASH);
     }, 500);
   }
 
+  /**
+   * deleteFromGame() - Deletes the object from the game after a delay.
+   * Updates the `deleted` property and removes the object from the world's throwable objects.
+   */
   deleteFromGame() {
     this.deleted = true;
     if (this.world.throwableObjects) {

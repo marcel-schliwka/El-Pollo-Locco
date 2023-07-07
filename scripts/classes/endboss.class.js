@@ -1,3 +1,6 @@
+/**
+ * Represents the end boss character in the game, extending the MoveableObject class.
+ */
 class Endboss extends MoveableObject {
   width = 300;
   height = 300;
@@ -50,6 +53,9 @@ class Endboss extends MoveableObject {
     "img/4_enemie_boss_chicken/1_walk/G4.webp",
   ];
 
+  /**
+   * Constructs the end boss object and initializes images and animations.
+   */
   constructor() {
     super();
     super.loadImage("img/4_enemie_boss_chicken/2_alert/G5.webp");
@@ -67,17 +73,28 @@ class Endboss extends MoveableObject {
     };
   }
 
+  /**
+   * Defines the behavior and animation of the end boss character.
+   * The end boss character performs different animations based on its state,
+   * which can be hurt, in contact with the player, has been hurt before and is not dead,
+   * or is dead.
+   * The character also moves in different directions based on its position in relation to the player.
+   */
   animate() {
     stoppableInterval(() => {
       if (this.isHurt() && !this.isDead()) {
         this.playAnimation(this.IMAGES_HURT);
-        this.world.soundManager.playEndbossHurt();
+        this.world.soundManager.playSound(
+          this.world.soundManager.endboss_hurt_sound
+        );
         this.onceHurt = true;
       } else if (this.playerContact) {
         this.playAnimation(this.IMAGES_ATTACK);
       } else if (this.onceHurt && !this.isDead()) {
-        this.world.soundManager.stopTheme();
-        this.world.soundManager.playEndbossTheme();
+        this.world.soundManager.pauseSound(this.world.soundManager.theme_sound);
+        this.world.soundManager.playSound(
+          this.world.soundManager.endboss_theme_sound
+        );
         this.playAnimation(this.IMAGES_WALKING);
         if (this.isCharacterLefOrRight()) {
           this.otherDirection = true;
@@ -88,13 +105,19 @@ class Endboss extends MoveableObject {
         }
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD, "IMAGES_DEAD", () => {});
-        this.world.soundManager.endbossDies();
+        this.world.soundManager.playSound(
+          this.world.soundManager.endboss_dead_sound
+        );
       } else {
         this.playAnimation(this.IMAGES_ALERT, "IMAGES_ALERT");
       }
     }, 200);
   }
 
+  /**
+   * Checks if the character is on the left or right side of the end boss.
+   * @returns {boolean} True if the character is on the right side of the end boss, False otherwise.
+   */
   isCharacterLefOrRight() {
     return this.x < this.world.character.x;
   }

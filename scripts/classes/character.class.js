@@ -1,5 +1,10 @@
+/**
+ * Represents a Character object in the game, which is a type of MoveableObject.
+ * The character can perform a number of actions like walking, jumping, being idle, getting hurt and dying, which are depicted using different sets of images.
+ * The character has an energy level and can collect bottles and coins.
+ * The character responds to keyboard controls for movement and jumping.
+ */
 class Character extends MoveableObject {
-  // y = 150; Ground
   y = 40;
   x = 100;
   width = 150;
@@ -74,6 +79,11 @@ class Character extends MoveableObject {
   ];
 
   speed = 10;
+
+  /**
+   * Constructs a Character object and initializes its position, dimensions, energy, number of bottles and coins, and the images for different states.
+   * Applies gravity to the character, loads the images, and starts animation.
+   */
   constructor() {
     super();
     this.applyGravity();
@@ -93,9 +103,22 @@ class Character extends MoveableObject {
 
     this.animate();
   }
+
+  /**
+   * Resets the timer used for determining when the character transitions from the idle state to the long idle state.
+   */
   resetIdleTimer() {
     this.idleTimer = 0;
   }
+
+  /**
+   * Animates the character based on its state and the keyboard controls.
+   * If the character is above the ground, it is in the jumping state.
+   * If the character is dead, it is in the dead state.
+   * If the character is moving left or right, it is in the walking state.
+   * If the character is hurt, it is in the hurt state.
+   * Otherwise, the character is in the idle state. If it has been idle for a certain amount of time, it transitions to the long idle state.
+   */
   animate() {
     stoppableInterval(() => {
       if (this.isAboveGround()) {
@@ -110,7 +133,9 @@ class Character extends MoveableObject {
         this.playAnimation(this.IMAGES_WALKING);
       } else if (this.isHurt()) {
         this.resetIdleTimer();
-        this.world.soundManager.characterHurt();
+        this.world.soundManager.playSound(
+          this.world.soundManager.character_hurt_sound
+        );
         this.playAnimation(this.IMAGES_HURT);
       } else {
         this.playAnimation(this.IMAGES_IDLE);
@@ -126,7 +151,9 @@ class Character extends MoveableObject {
       if (this.isDead()) {
         return 0;
       } else if (this.checkIfCharacterJumps()) {
-        this.world.soundManager.playJump();
+        this.world.soundManager.playSound(
+          this.world.soundManager.character_jump_sound
+        );
         this.jump();
       } else if (
         this.world.keyboard.RIGHT &&
@@ -144,9 +171,20 @@ class Character extends MoveableObject {
     }, 1000 / 30);
   }
 
+  /**
+   * Checks if the character has enough bottles.
+   * @returns {boolean} True if the character has more than 0 bottles, false otherwise.
+   */
   hasEnoughBottles() {
     return this.bottles > 0;
   }
+
+  /**
+   * Checks if the character is supposed to jump based on the keyboard controls and whether it is above the ground.
+   * The character can jump if the space bar or the up arrow key is pressed and it is not above the ground.
+   * It can also jump if it is moving left or right and the up arrow key is pressed and it is not above the ground.
+   * @returns {boolean} True if the character is supposed to jump, false otherwise.
+   */
   checkIfCharacterJumps() {
     return (
       (this.world.keyboard.SPACE && !this.isAboveGround()) ||

@@ -1,3 +1,6 @@
+/**
+ * Represents a Chicken character in the game, which is a type of MoveableObject.
+ */
 class Chicken extends MoveableObject {
   y = 340;
   x = 100;
@@ -14,6 +17,9 @@ class Chicken extends MoveableObject {
 
   IMAGE_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.webp"];
 
+  /**
+   * Constructs a Chicken object, initializes images and animations, sets its position and speed randomly.
+   */
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.webp");
     super.loadimages(this.IMAGE_DEAD);
@@ -29,6 +35,12 @@ class Chicken extends MoveableObject {
     };
   }
 
+  /**
+   * Defines the behavior and animation of the Chicken character.
+   * The Chicken character continuously moves left unless it's dead.
+   * While it's alive, it plays a walking animation. If it's dead, a death sound effect is played, it plays a dead animation,
+   * and it is removed from the game after 1 second.
+   */
   animate() {
     stoppableInterval(() => {
       if (!this.isDead()) {
@@ -38,7 +50,9 @@ class Chicken extends MoveableObject {
     stoppableInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
       if (this.isDead()) {
-        this.world.soundManager.chickenDead();
+        this.world.soundManager.playSound(
+          this.world.soundManager.chicken_dead_sound
+        );
         this.playAnimation(this.IMAGE_DEAD);
         setTimeout(() => delete this, 1000);
       }

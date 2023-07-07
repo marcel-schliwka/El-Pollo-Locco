@@ -1,3 +1,6 @@
+/**
+ * Represents a SmallChicken object in the game, which is a type of Chicken.
+ */
 class SmallChicken extends Chicken {
   jumpEnergy = 1;
   IMAGES_WALKING = [
@@ -7,6 +10,11 @@ class SmallChicken extends Chicken {
   ];
 
   IMAGE_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.webp"];
+  /**
+   * Constructs a SmallChicken object and initializes its width, height, and y position.
+   * Overrides the default IMAGES_WALKING and IMAGE_DEAD properties with images suitable for small chickens.
+   * Loads the walking and dead images for the small chicken.
+   */
   constructor() {
     super();
     this.width = 75;

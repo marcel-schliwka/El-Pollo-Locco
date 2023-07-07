@@ -1,3 +1,11 @@
+/**
+ * Creates a new Level instance with specified enemies, clouds, background objects, and items.
+ * Enemies include Chicken, SmallChicken, and Endboss.
+ * Background objects include BackgroundObject instances with specific image paths and positions.
+ * Items include Bottle instances with specific positions and Coin instances.
+ *
+ * @returns {Level} A new Level instance with predefined enemies, clouds, background objects, and items.
+ */
 function createLevel() {
   return new Level(
     [
@@ -20,7 +28,14 @@ function createLevel() {
       new SmallChicken(),
       new Endboss(),
     ],
-    [new Cloud()],
+    [
+      new Cloud(0),
+      new Cloud(1000),
+      new Cloud(2000),
+      new Cloud(3000),
+      new Cloud(4000),
+      new Cloud(5000),
+    ],
     [
       new BackgroundObject("img/5_background/layers/air.webp", -719, 0),
       new BackgroundObject(

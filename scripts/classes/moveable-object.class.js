@@ -1,9 +1,12 @@
+/**
+ * Represents a MoveableObject in the game. This is a subclass of DrawableObject that can move and interact with other objects in the game world.
+ */
 class MoveableObject extends DrawableObject {
   canvas = document.querySelector("#canvas");
   speed = 0.15;
   otherDirection = false;
   speedY = 1;
-  jumpEnergy = 2;
+
   acceleration = 1;
   lastHit = 0;
   side = "right";
@@ -14,6 +17,9 @@ class MoveableObject extends DrawableObject {
     bottom: 0,
   };
 
+  /**
+   * Applies gravity to the object.
+   */
   applyGravity() {
     let gravityInterval = stoppableInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -26,6 +32,10 @@ class MoveableObject extends DrawableObject {
     return gravityInterval;
   }
 
+  /**
+   * Determines whether the object is above the ground.
+   * @returns {boolean} A boolean indicating whether the object is above the ground.
+   */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
@@ -34,16 +44,27 @@ class MoveableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Moves the object to the right.
+   */
   moveRight() {
     this.x += this.speed;
     this.side = "right";
   }
 
+  /**
+   * Moves the object to the left.
+   */
   moveLeft() {
     this.x -= this.speed;
     this.side = "left";
   }
 
+  /**
+   * Determines whether the object is colliding with another object.
+   * @param {DrawableObject} obj - The other object.
+   * @returns {boolean} A boolean indicating whether the objects are colliding.
+   */
   isColliding(obj) {
     const myLeft = this.x + this.offset.left;
     const myRight = this.x + this.width - this.offset.right;
@@ -64,6 +85,11 @@ class MoveableObject extends DrawableObject {
     );
   }
 
+  /**
+   * Determines whether the object is jumping on another object.
+   * @param {DrawableObject} obj - The other object.
+   * @returns {boolean} A boolean indicating whether the object is jumping on the other object.
+   */
   isJumpingOn(obj) {
     if (obj instanceof Endboss) {
       return false;
@@ -72,6 +98,10 @@ class MoveableObject extends DrawableObject {
     return isJumpingOn;
   }
 
+  /**
+   * Eliminates the object from the level.
+   * @param {Level} level - The level from which to remove the object.
+   */
   getEliminated(level) {
     // Play death animation.
     this.playAnimation(this.IMAGE_DEAD);
@@ -85,6 +115,9 @@ class MoveableObject extends DrawableObject {
     }, 1000);
   }
 
+  /**
+   * Decreases the object's energy by a fixed amount, indicating a hit.
+   */
   hit() {
     this.energy -= 30;
     if (this.energy < 0) {
@@ -94,6 +127,9 @@ class MoveableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Decreases the object's jump energy by a fixed amount, indicating that it has been jumped on.
+   */
   jumpedOn() {
     this.jumpEnergy -= 1;
     if (this.jumpEnergy < 0) {
@@ -101,25 +137,28 @@ class MoveableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Determines whether the object is hurt.
+   * @returns {boolean} A boolean indicating whether the object is hurt.
+   */
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
     timePassed = timePassed / 1000;
     return timePassed < 1.25;
   }
 
+  /**
+   * Determines whether the object is dead.
+   * @returns {boolean} A boolean indicating whether the object is dead.
+   */
   isDead() {
     return this.energy == 0 || this.jumpEnergy == 0;
   }
 
-  positionEntity(img, factorHeight, factorWidth) {
-    const percentHeight = (this.canvas.height + img.height) / 100;
-    const percentWidth = (this.canvas.width + img.width) / 100;
-    console.log(`1 Prozent: ${percentHeight}`);
-    this.height = percentHeight * factorHeight;
-    this.width = percentWidth * factorWidth;
-    console.log(`${this} ${this.height}`);
-  }
-
+  /**
+   * Plays an animation for the object.
+   * @param {Array} images - The sequence of images for the animation.
+   */
   playAnimation(images) {
     if (!images) {
       return 0;
@@ -130,6 +169,9 @@ class MoveableObject extends DrawableObject {
     this.currentImage++;
   }
 
+  /**
+   * Makes the object jump.
+   */
   jump() {
     this.speedY = 15;
   }
