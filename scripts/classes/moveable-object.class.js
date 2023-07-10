@@ -26,10 +26,15 @@ class MoveableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
-        this.speedY = 0;
+        this.land();
       }
     }, 1000 / 60);
     return gravityInterval;
+  }
+
+  land() {
+    this.y = 144;
+    this.speedY = 0;
   }
 
   /**
@@ -40,7 +45,7 @@ class MoveableObject extends DrawableObject {
     if (this instanceof ThrowableObject) {
       return true;
     } else {
-      return this.y < 142;
+      return this.y < 144;
     }
   }
 
