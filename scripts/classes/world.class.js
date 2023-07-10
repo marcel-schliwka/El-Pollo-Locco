@@ -140,6 +140,7 @@ class World {
     if (!enemy.isDead()) {
       this.soundManager.playSound(this.soundManager.chicken_sound);
       enemy.jumpedOn();
+      this.character.speedY = 0;
       if (enemy.jumpEnergy > 0) {
         this.character.jump();
       }

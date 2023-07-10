@@ -49,6 +49,15 @@ class SoundManager {
     sound.pause();
   }
 
+  muteThemes() {
+    this.theme_sound.pause();
+    this.endboss_theme_sound.pause();
+  }
+
+  resumeThemes() {
+    this.theme_sound.play();
+  }
+
   /**
    * Handles the character's walking sound. Plays the sound if the character is walking and not muted, otherwise pauses the sound.
    * @param {boolean} walking - Boolean indicating whether the character is walking or not.

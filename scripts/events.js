@@ -20,7 +20,7 @@ const menu = document.getElementById("settingsMenu");
  * Instance of the SoundManager class to manage game sounds.
  * @type {SoundManager}
  */
-let soundManager;
+let soundManager = new SoundManager();
 
 /**
  * Starts the game, creates the level with all enemies and items to collect.
@@ -29,7 +29,7 @@ let soundManager;
  */
 function startGame() {
   const level1 = createLevel();
-  soundManager = new SoundManager();
+
   world = new World(canvas, keyboard, level1, soundManager);
   document
     .querySelectorAll(".hide")
@@ -63,6 +63,7 @@ function closeSettings(button) {
 function muteAudio(button) {
   button.setAttribute("onclick", "resumeAudio(this);");
   button.src = "./img/icons/mute.webp";
+  soundManager.muteThemes();
   soundManager.muted = true;
 }
 
@@ -73,6 +74,7 @@ function muteAudio(button) {
 function resumeAudio(button) {
   button.setAttribute("onclick", "muteAudio(this);");
   button.src = "./img/icons/sound.webp";
+  soundManager.resumeThemes();
   soundManager.muted = false;
 }
 

@@ -5,8 +5,8 @@
  * The character responds to keyboard controls for movement and jumping.
  */
 class Character extends MoveableObject {
-  y = 40;
   x = 100;
+  y = 100;
   width = 150;
   height = 300;
   energy = 100;
@@ -86,6 +86,7 @@ class Character extends MoveableObject {
    */
   constructor() {
     super();
+    console.log(this.y);
     this.applyGravity();
     super.loadImage("img/2_character_pepe/2_walk/W-21.webp");
     super.loadimages(this.IMAGES_IDLE);
