@@ -86,7 +86,6 @@ class Character extends MoveableObject {
    */
   constructor() {
     super();
-    console.log(this.y);
     this.applyGravity();
     super.loadImage("img/2_character_pepe/2_walk/W-21.webp");
     super.loadimages(this.IMAGES_IDLE);
